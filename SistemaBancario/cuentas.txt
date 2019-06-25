@@ -1,0 +1,3 @@
+Idsolicitud, usuario, tipocuenta, numerocuenta, estado,idchequera, tipoplan, fechacreacion
+1,jcasto,ahorro,977047038,activa,0,1,Wed Jun 19 22:41:13 COT 2019
+2,dcacere,ahorro,858327210,pendiente,0,1,Wed Jun 19 22:41:42 COT 2019

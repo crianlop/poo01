@@ -1,0 +1,12 @@
+nombre,apellido,usuario,contrasena,perfil
+dylan,escala,poo,poo,A
+dylan,escala,dylvid,DAVID2000,E
+jos,man,pins,DAVID2000,C
+izi,pizi,xd,DAVID2000,A
+dylan,escala,ez,DAVID2000,C
+Aaron,Carrasco,eacarras,Aaron0987,C
+MARIO,JAVIER,mjcastro,Mario2792,C
+Javier,Castro,mcastro,Jcastro27,C
+david,caceres,dcacere,Dacacere78,C
+javier,castro,jcastro,Jcastro27,C
+javier,castro,jcasto,JCastro1,E
