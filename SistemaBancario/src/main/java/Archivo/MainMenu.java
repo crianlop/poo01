@@ -1,4 +1,4 @@
-﻿package Main;
+package Main;
 
 import Archivo.ManejoArchivos;
 import java.util.Scanner;
@@ -15,8 +15,8 @@ public class MainMenu {
     
     private static ArrayList<Solicitud> arraySolicitudes = new ArrayList<>();
     
-    private static ArrayList<String> arrayCuentas = new ArrayList<>();
-    private static ArrayList<String> arraySolicitudesPendientes = new ArrayList<>();
+    private static ArrayList<String> arrayCuentas = ManejoArchivos.cuentasPendientes();
+    private static ArrayList<String> arraySolicitudesPendientes =  ManejoArchivos.solicitudesPendientes();
     
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -318,9 +318,8 @@ public class MainMenu {
             MainMenu.menuEmpleado();
             MainMenu.lineas();
             String opcion = sc.nextLine();
-            while (!opcion.equals("5")) {
+            while (!opcion.equals("4")) {
                 if(opcion.equals("1")){
-                    arrayCuentas = ManejoArchivos.cuentasPendientes();
                     solicitudesCuenta();
                     for(int i = 0; i < arrayCuentas.size(); i++) {
                         System.out.println(i + ":" + " " + arrayCuentas.get(i).split(",")[0]);
@@ -355,23 +354,26 @@ public class MainMenu {
                                 sb.append(",");
                             }
                             arrayCuentas.add(sb.toString());
-                            // Cambiar en archivo
+                            try{
+                                ManejoArchivos.cambiarValor("cuentas.txt", arrayCuentas);
+                            } catch(Exception e) {
+                                
+                            }
                             System.out.println("CUENTA APROBADA");
                         } else System.out.println("CUENTA NO APROBADA");
                     }                                        
 
                 } else if(opcion.equals("2")) {
-                    arraySolicitudesPendientes = ManejoArchivos.solicitudesPendientes();
                     solicitudesPendientes();
                     for(int i = 0; i < arraySolicitudesPendientes.size(); i++) {
-                        System.out.println(i + ":" + " " + arraySolicitudesPendientes.get(i).split(",")[0]);
+                        System.out.println(++i + ":" + " " + arraySolicitudesPendientes.get(i).split(",")[0]);
                     }
                     int cuentaAAprobar;
                     System.out.println("Ingrese una opcion: ");
                     cuentaAAprobar = sc.nextInt();
                                        
                     lineas();
-                    if(cuentaAAprobar > arraySolicitudesPendientes.size()) {
+                    if(cuentaAAprobar > arraySolicitudesPendientes.size() + 1) {
                         System.out.println("Ingreso un numero equivocado");
                         lineas();
                     }
@@ -384,10 +386,10 @@ public class MainMenu {
                         System.out.println("Sueldo: " + cuenta[5]);                        
                         lineas();
                                             
-                        String aprobar;
-                        System.out.println("¿Desea aprobar la creación de esta cuenta? (s/n): ");
-                        aprobar = sc.nextLine().toUpperCase();
-                        if(aprobar.equals("S")) {
+                        String s_n;
+                        System.out.println("¿Desea aprobar la creación de esta cuenta? (s/n):");
+                        s_n = sc.nextLine();
+                        if(s_n.toUpperCase().equals("S")) {
                             arraySolicitudesPendientes.remove(cuentaAAprobar);
                             cuenta[8] = "activa";
                             StringBuilder sb = new StringBuilder();                            
@@ -396,15 +398,32 @@ public class MainMenu {
                                 sb.append(",");
                             }
                             arraySolicitudesPendientes.add(sb.toString());
-                            // Cambiar en archivo
+                            try{
+                                ManejoArchivos.cambiarValor("solicitudes.txt", arraySolicitudesPendientes);
+                            } catch(Exception e) {
+                                
+                            }
                             System.out.println("CUENTA APROBADA");
                         } else System.out.println("CUENTA NO APROBADA");
                     }
                 } else if(opcion.equals("3")) {
-                    // Reportes
-                }  else if(opcion.equals("4")){
-                } 
-                else {
+                    System.out.println("1.- Por fecha de creacion\n"
+                                     + "2.- Por nombre");
+                    String reporte = sc.nextLine();
+                    while(!(reporte != "1" || reporte != "2")) {
+                        System.out.println("1.- Por fecha de creacion\n"
+                                     + "2.- Por nombre");
+                        reporte = sc.nextLine();
+                    }
+                    
+                    for(String a: arrayCuentas) {
+                        String[] sb = a.split(",");
+                        System.out.println("Usuario: " + sb[1]);
+                        System.out.println("Numero de Cuenta: " + sb[3]);
+                        System.out.println("Fecha: " + sb[7]);
+                    }
+                } else if (opcion.equals("4")) {                    
+                } else {
                     Error();
                     opcion = sc.nextLine();
                 }
