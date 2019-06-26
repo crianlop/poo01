@@ -1,0 +1,2 @@
+Idsolicitud, usuario, tipo, cuenta, lugartrabajo, sueldo, tarjetas, deudas, estado
+1,ez,credito,no aplica,dicproind,200,0,25,pendiente

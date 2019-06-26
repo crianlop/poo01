@@ -1,0 +1,2 @@
+1,i,pins,1.0,interna, tipocuenta,,1
+2,i,,1.0,interna, tipocuenta,1,

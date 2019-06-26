@@ -1,40 +1,35 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cuenta;
-
+package Tarjeta;
 import Archivo.ManejoArchivos;
-import Usuario.Cliente;
 import Interfaz.Transaccionable;
-
 /**
  *
- * @author Administrator
+ * @author dylan
  */
-public class Cuenta implements Transaccionable{
-
-    protected Cliente cliente;
-    protected int numeroCuenta;
-
-    public int getNumeroCuenta() {
-        return numeroCuenta;
+public class Tarjeta implements Transaccionable {
+    int numero;
+    
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNumeroCuenta(int numeroCuenta) {
-        this.numeroCuenta = numeroCuenta;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     @Override
     public void consultarEstado(String usuario) {
-        ManejoArchivos.ConsultaEstadoCuenta("cuentas.txt", usuario);
+        ManejoArchivos.ConsultaEstadoTarjetas("solicitudes.txt", usuario);
     }
 
     @Override
     public void desactivar(String usuario, String numero) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
 }

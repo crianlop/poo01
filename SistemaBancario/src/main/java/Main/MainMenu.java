@@ -1,23 +1,23 @@
-﻿package Main;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Main;
 
 import Archivo.ManejoArchivos;
 import java.util.Scanner;
-import java.util.ArrayList;
-import solicitud.Solicitud;
 import Usuario.*;
 import Cuenta.*;
+import Tarjeta.*;
+import Transferencia.Transferencia;
 
 /**
  *
- * @author Administrator
+ * @author Aadministrator
  */
 public class MainMenu {
-    
-    private static ArrayList<Solicitud> arraySolicitudes = new ArrayList<>();
-    
-    private static ArrayList<String> arrayCuentas = new ArrayList<>();
-    private static ArrayList<String> arraySolicitudesPendientes = new ArrayList<>();
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
@@ -40,6 +40,7 @@ public class MainMenu {
         perfil = ManejoArchivos.retornarPerfil(usuario, contrasena);
         MainMenu.menu(usuario, perfil);
 
+//    menu
     }
 
     private static void menu(String nombreUsuario, String Perfil) {
@@ -61,6 +62,7 @@ public class MainMenu {
                     System.out.print("Selecciones: ");
                     String idx4 = sc.nextLine();
 
+//                    validacion
                     while (!(idx4.equals("E") || idx4.equals("C"))) {
                         System.out.println("error!");
                         System.out.println("Que perfil tendra el nuevo usuario?");
@@ -69,7 +71,7 @@ public class MainMenu {
                         System.out.print("Selecciones: ");
                         idx4 = sc.nextLine();
                     }
-                    
+
                     System.out.print("Ingrese el nombre:");
                     String nombre = sc.nextLine();
                     System.out.print("Ingrese el apellido:");
@@ -92,11 +94,12 @@ public class MainMenu {
                     }
                     System.out.println("La contrasena es valida");
                     System.out.print("Desea guardar los cambios realizados? (S/N)");
-                    String idx9 = sc.nextLine().toUpperCase(); // Validacion de contraseña
+                    String idx9 = sc.nextLine();
                     if (idx9.equals("S") && (idx4.equals("C"))) {
                         cliente = new Cliente(nombre, apellido, usuario, contrasena);
+//                        ManejoArchivos.EscribirUsuarios(cliente, idx4);
                     } else if (idx9.equals("S") && (idx4.equals("E"))) {
-                        empleado = new Empleado(nombre, apellido, usuario, contrasena); // se debe guardar empleado no cliente
+                        cliente = new Cliente(nombre, apellido, usuario, contrasena);
 
                     } else {
                     }
@@ -106,7 +109,44 @@ public class MainMenu {
                 }
             }
 
-        } else if (Perfil.toUpperCase().equals("C")) {
+        }if(Perfil.toUpperCase().equals("E")){
+            MainMenu.lineas();
+            MainMenu.menuEmpleado();
+            MainMenu.lineas();
+            String opcion = sc.nextLine();
+             while (!opcion.equals("4")) {
+                 if (opcion.equals("1")) {
+                     System.out.println("------Solicitudd de creaccion de cuentas---------");
+                     ManejoArchivos.ConsultarSolicitud("SolicitudCuentas.txt","pendiente");
+                      int contador;
+                      contador=ManejoArchivos.ContadorSolicitudes("SolicitudCuentas.txt","pendiente");
+                      if(contador>0){
+                      System.out.println("Elija una opcion: ");
+                      String opcionId=sc.nextLine();
+                      ManejoArchivos.ConsultarCuenta("SolicitudCuentas.txt", opcionId);
+                      System.out.print("Desea aprobar la creacion de esta cuenta (s/n): ");
+                      String aprobar = sc.nextLine();
+                      if(aprobar.equals("s")){
+                          ManejoArchivos.CambiarEstado("cuentas.txt","SolicitudCuentas.txt",opcionId);
+                          System.out.println("Cuenta Aprobada.");
+                      }
+                      
+                      }       
+                }else if(opcion.equals("2")) {
+                }else if(opcion.equals("3")) {    
+                }else if (opcion.equals("4")) {
+                } else {
+                    MainMenu.Error();
+                    opcion = sc.nextLine();
+                }
+                MainMenu.lineas();
+                MainMenu.menuEmpleado();
+                MainMenu.lineas();
+                opcion = sc.nextLine();
+             }
+            
+        }
+        else if (Perfil.toUpperCase().equals("C")) {
             MainMenu.lineas();
             MainMenu.menuCliente();
             MainMenu.lineas();
@@ -123,6 +163,17 @@ public class MainMenu {
                         cuenta = sc.nextLine();
                     }
                     if (cuenta.equals("c")) {
+                        System.out.print("¿Desea crear su cuenta (s/n)?:");
+                        String idxcliente1 = sc.nextLine();
+                        if (idxcliente1.equals("s")) {
+                            System.out.println("Generando chequera......");
+                            CuentaCorriente cuentacorriente = new CuentaCorriente(nombreUsuario);
+                            MainMenu.lineas();
+                            System.out.println("Se ha creado su cuenta con el código: " + cuentacorriente.getNumeroCuenta() + ".");
+                        } else if (idxcliente1.equals("n")) {
+                        } else {
+                            MainMenu.Error();
+                        }
 
                     } else if (cuenta.equals("a")) {
                         String plan;
@@ -139,170 +190,163 @@ public class MainMenu {
                         System.out.print("¿Desea crear su cuenta (s/n)?:");
                         String idxcliente = sc.nextLine();
                         if (idxcliente.equals("s")) {
-                            CuentaAhorro cuentaAhorro = new CuentaAhorro(plan, nombreUsuario);
+                            CuentaAhorro cuentaahorro = new CuentaAhorro(plan, nombreUsuario);
+                            System.out.println("Se ha creado su cuenta con el código:" + cuentaahorro.getNumeroCuenta() + ".\n"
+                                    + "Recuerde que tiene 24 horas para realizar un depósito de al\n"
+                                    + "menos 25 dólares para activar su cuenta.");
                         } else if (idxcliente.equals("n")) {
                         } else {
                             MainMenu.Error();
-                        };
+                        }
                     } else {
                         MainMenu.Error();
                     }
                 } else if (opcion.equals("2")) {
-                    if(ManejoArchivos.ValidarCuentaActiva(nombreUsuario)){
-                        String tipoTransferencia;
-                        System.out.print("Indique el tipo de Transferencia que quiere realizar:\n"
-                                + "1. Directa\n"
-                                + "2. Otros Banco\n"
-                                + "Seleccione:");
-                        tipoTransferencia = sc.nextLine();
-                        while(!tipoTransferencia.equals("1") && !tipoTransferencia.equals("2")) {
-                            System.out.print("Indique el tipo de Transferencia que quiere realizar:\n"
-                                + "1. Directa\n"
-                                + "2. Otros Banco\n"
-                                + "Seleccione:");
-                            tipoTransferencia = sc.nextLine();
-                        }
-                        
-                        String numeroCuenta, banco = "", titular = "", cedula = "", descripcion = "";
-                        double monto;
-                        
-                        if(tipoTransferencia.equals("1")) {
-                            System.out.println("Ingrese el numero de cuenta: ");
-                            numeroCuenta = sc.nextLine();
-                            System.out.println("Ingrese el monto de la transaccion: ");
-                            monto = sc.nextDouble();
-                            while(monto > 25.0) {
-                                System.out.println("Su saldo es insuficiente para realizar la transaccion\n"
-                                        + "Ingrese el monto de la transaccion: ");
-                                monto = sc.nextDouble();
-                            }                         
-                        } else {                                                   
-                            System.out.println("Cuenta: ");
-                            numeroCuenta = sc.nextLine();
-                            
-                            System.out.println("Banco: ");
-                            banco = sc.nextLine();
-                            
-                            System.out.println("Titular: ");
-                            titular = sc.nextLine();
-                            
-                            System.out.println("Cédula: ");
-                            cedula = sc.nextLine();
-                            while(cedula.length() != 10) {
-                                Error();
-                                System.out.println("Cédula: ");
-                                cedula = sc.nextLine();
+                    MainMenu.lineas();
+                    System.out.print("El tipo de transferencia es interna o externa? (i/e):");
+                    String transferencia = sc.nextLine();
+                    while (!(transferencia.equals("i")) && !(transferencia.equals("e"))) {
+                        MainMenu.Error();
+                        System.out.print("El tipo de transferencia es interna o externa? (i/e):");
+                        transferencia = sc.nextLine();
+                    }
+                    Transferencia trans;
+                    if (ManejoArchivos.hacerTransferencia("cuentas.txt", nombreUsuario)) {
+                        if (transferencia.equals("i")) {
+                            System.out.print("cuenta:");
+                            String cuenta1 = sc.nextLine();
+                            while (ManejoArchivos.retornarTitular("cuentas.txt", cuenta1).equals("x")) {
+                                MainMenu.Error();
                             }
-                            
-                            System.out.println("Monto: ");
-                            monto = sc.nextDouble();
-                            while(monto > 25.0) {
-                                System.out.println("Su saldo es insuficiente para realizar la transaccion\n"
-                                        + "Ingrese el monto de la transaccion: ");
-                                monto = sc.nextDouble();
+                            String titular = ManejoArchivos.retornarTitular("cuentas.txt", cuenta1);
+                            System.out.print("monto:");
+                            double monto = sc.nextInt();
+                            System.out.print("cedula:");
+                            String cedula = sc.next();
+                            System.out.print("descripcion:");
+                            String descripcion = sc.nextLine();
+                            if (true) {
+                                trans = new Transferencia(transferencia, cuenta1, monto, "interna", titular, cedula, descripcion);
                             }
-                            
-                            System.out.println("Descripción: ");
-                            descripcion = sc.nextLine();
-                        }
-                        
-                        String validacion;
-                        System.out.println("¿Está Seguro de realizar esta transferencia (s/n)?: ");
-                        validacion = sc.nextLine().toUpperCase();
-                        
-                        if(validacion.equals("S") && tipoTransferencia.equals("1")) {
-                            titular = ManejoArchivos.EncontrarTitular(numeroCuenta);
-                            ManejoArchivos.EscribirTransferencia(String.valueOf(ManejoArchivos.retornarPriximoId("transferencias.txt")), 
-                                    tipoTransferencia, numeroCuenta, monto, "Mi Banco", titular, cedula, descripcion);
-                        } else if(validacion.equals("S")) {
-                            ManejoArchivos.EscribirTransferencia(String.valueOf(ManejoArchivos.retornarPriximoId("transferencias.txt")), 
-                                    tipoTransferencia, numeroCuenta, monto, banco, titular, cedula, descripcion);
-                        }                   
-                        
-                    } else Error();
-                } else if (opcion.equals("3")) {
-                    if(ManejoArchivos.ValidarCuentaActiva(nombreUsuario)){
-                        String tipoSolicitud;
-                        System.out.print("Indique el tipo de solicitud que quiere realizar:\n"
-                                + "1. Tarjeta de Debito\n"
-                                + "2. Tarjeta de Credito\n"                               
-                                + "Seleccione:");
-                        tipoSolicitud = sc.nextLine();
-                        
-                        while(!tipoSolicitud.equals("1") && !tipoSolicitud.equals("2")) {
-                            System.out.print("Indique el tipo de solicitud que quiere realizar:\n"
-                                + "1. Tarjeta de Debito\n"
-                                + "2. Tarjeta de Credito\n"                               
-                                + "Seleccione:");
-                            tipoSolicitud = sc.nextLine();
-                        }
-                        
-                        String numeroCuenta = "", trabajo = "";
-                        double sueldo = 0.0, deudas = 0.0;
-                        int tarjetas = 0;
-                        
-                        if(tipoSolicitud.equals("1")){
-                            if(ManejoArchivos.ValidarExistenciaSolicitud(nombreUsuario, "debito") || 
-                                    ManejoArchivos.ValidarCuentaActiva(nombreUsuario)){
-                                System.out.println("Usted no puede realizar la solicitud!!"); 
-                            } else {
-                                System.out.println("Ingrese su nombre de usuario: ");
-                                nombreUsuario = sc.nextLine();
-                                
-                                System.out.println("Ingrese su numero de cuenta: ");
-                                numeroCuenta = sc.nextLine();                                                              
-                            }
+
                         } else {
-                            if(ManejoArchivos.ValidarExistenciaSolicitud(nombreUsuario, "credito")){
-                                System.out.println("Usted no puede realizar la solicitud!"); 
-                            } else {
-                                System.out.println("Ingrese su nombre de usuario: ");
-                                nombreUsuario = sc.nextLine();
-                                
-                                System.out.println("Ingrese el lugar de trabajo: ");
-                                trabajo = sc.nextLine();
-                                
-                                System.out.println("Ingrese su sueldo mensual: ");
-                                sueldo = sc.nextDouble();
-                                
-                                System.out.println("Ingrese sus deudas mensuales: ");
-                                deudas = sc.nextDouble();
-                                
-                                System.out.println("Ingrese el numero de tarjetas: ");
-                                tarjetas = sc.nextInt();
+                            System.out.print("cuenta:");
+                            String cuenta1 = sc.nextLine();
+                            while (ManejoArchivos.retornarTitular("cuentas.txt", cuenta1).equals("x")) {
+                                MainMenu.Error();
+                            }
+                            String titular = ManejoArchivos.retornarTitular("cuentas.txt", cuenta1);
+                            System.out.print("banco:");
+                            String banco = sc.nextLine();
+                            System.out.print("monto:");
+                            double monto = sc.nextInt();
+                            System.out.print("cedula:");
+                            String cedula = sc.next();
+                            System.out.print("descripcion:");
+                            String descripcion = sc.nextLine();
+                            if (true) {
+                                trans = new Transferencia(transferencia, cuenta1, monto, banco, titular, cedula, descripcion);
                             }
                         }
-                        
-                        String id = String.valueOf(ManejoArchivos.retornarPriximoId("solicitudes.txt"));
-                        ManejoArchivos.EscribirSolicitud(id, nombreUsuario, tipoSolicitud, numeroCuenta, trabajo, sueldo, tarjetas, deudas, "pendiente");
-                        arraySolicitudes.add(new Solicitud(id, nombreUsuario, tipoSolicitud, numeroCuenta, trabajo, sueldo, tarjetas, deudas));
-                    }else Error();
+                    }else{
+                        System.out.println("no es posible realizar una transferencia");
+                    }
+
+                } else if (opcion.equals("3")) {
+                    MainMenu.lineas();
+                    System.out.println("Seleccione el tipo de tarjeta que desea solicitar");
+                    System.out.print("cerdito/debito (c/d):");
+                    String tarjetaseleccion = sc.nextLine();
+                    while (!tarjetaseleccion.equals("c") && !tarjetaseleccion.equals("d")) {
+                        MainMenu.Error();
+                        tarjetaseleccion = sc.nextLine();
+                    }
+                    if (tarjetaseleccion.equals("d")) {
+                        System.out.print("Ingrese su usuario:");
+                        String usuario = sc.nextLine();
+                        while (!usuario.equals(nombreUsuario)) {
+                            MainMenu.Error();
+                            System.out.print("Ingrese su usuario:");
+                            usuario = sc.nextLine();
+                        }
+                        System.out.print("Ingrese su numero de cuenta:");
+                        String numeroCuenta = sc.nextLine();
+                        if (ManejoArchivos.NumeroCuenta(usuario, "cuentas.txt", numeroCuenta).equals("x")) {
+                            MainMenu.Error();
+                        } else if (ManejoArchivos.NumeroCuenta(usuario, "cuentas.txt", numeroCuenta).equals("p")) {
+                            System.out.println("Su cuenta todavia no ha sido aprobada.");
+                        } else {
+                            TarjetaDebito.CrearSolicitud(usuario, numeroCuenta);
+                            System.out.println("Su solicitud ha sido generada.");
+                        }
+                    } else {
+                        System.out.print("Ingrese su usuario:");
+                        String usuario = sc.nextLine();
+                        while (!usuario.equals(nombreUsuario)) {
+                            MainMenu.Error();
+                            System.out.print("Ingrese su usuario:");
+                            usuario = sc.nextLine();
+                        }
+                        System.out.print("Ingrese su lugar de trabajo:");
+                        String trabajo = sc.nextLine();
+                        System.out.print("Ingrese su sueldo:");
+                        String sueldo = sc.nextLine();
+                        System.out.print("Ingrese su cantidad de trajetas adquiridas:");
+                        String tarjetas = sc.nextLine();
+                        while (!tarjetas.equals(ManejoArchivos.NumeroTarjetas("solicitudes.txt", usuario))) {
+                            MainMenu.Error();
+                            System.out.print("Ingrese su cantidad de trajetas adquiridas:");
+                            tarjetas = sc.nextLine();
+                        }
+                        System.out.print("Ingrese sus deudas:");
+                        String deudas = sc.nextLine();
+                        System.out.print("Desea generar la tarjeta (s/n)?");
+                        String respuesta = sc.nextLine();
+                        while (!respuesta.equals("s") && !respuesta.equals("n")) {
+                            MainMenu.Error();
+                            System.out.print("Desea generar la tarjeta (s/n)?");
+                            respuesta = sc.nextLine();
+                        }
+                        if (respuesta.equals("s")) {
+                            TarjetaCredito.CrearSolicitud(usuario, trabajo, sueldo, tarjetas, deudas);
+                            System.out.println("Su solicitud ha sido generada.");
+                        }
+                    }
                 } else if (opcion.equals("4")) {
-                    for(Solicitud solicitud: arraySolicitudes) {
-                        if(solicitud.getUsuario().equals(nombreUsuario)) solicitud.consultarEstado();
+                    System.out.println("1.-Cuentas");
+                    System.out.println("2.-Tarjetas");
+                    System.out.print("->");
+                    String seleccion = sc.nextLine();
+                    while (!seleccion.equals("1") && !seleccion.equals("2")) {
+                        MainMenu.Error();
+                        System.out.println("1.-Cuentas");
+                        System.out.println("2.-Tarjetas");
+                        System.out.print("->");
+                        seleccion = sc.nextLine();
                     }
+                    if (seleccion.equals("1")) {
+                        Cuenta cuentafalsa = new Cuenta();
+                        cuentafalsa.consultarEstado(nombreUsuario);
+                    } else {
+                        Tarjeta tarjetafalsa = new Tarjeta();
+                        tarjetafalsa.consultarEstado(nombreUsuario);
+                    }
+
                 } else if (opcion.equals("5")) {
-                    String desactivar;
-                    System.out.print("Indique el proceso que desea realizar:\n"
-                            + "1. Desactivar tarjeta de Credito\n"
-                            + "2. Desactivar solicitud de tarjetas\n"
-                            + "3. Desactivar cuenta\n"                               
-                            + "Seleccione:");
-                    desactivar = sc.nextLine();
-                    
-                    while(!desactivar.equals("1") && !desactivar.equals("2") && 
-                            desactivar.equals("3")) {
-                            System.out.print("Indique el proceso que desea realizar:\n"
-                            + "1. Desactivar tarjeta de Credito\n"
-                            + "2. Desactivar solicitud de tarjetas\n"
-                            + "3. Desactivar cuenta\n"                               
-                            + "Seleccione:");
-                        desactivar = sc.nextLine();
+                    System.out.println("1.-Cuentas");
+                    System.out.println("2.-Tarjetas");
+                    System.out.print("->");
+                    String seleccion = sc.nextLine();
+                    while (!seleccion.equals("1") && !seleccion.equals("2")) {
+                        MainMenu.Error();
+                        System.out.println("1.-Cuentas");
+                        System.out.println("2.-Tarjetas");
+                        System.out.print("->");
+                        seleccion = sc.nextLine();
                     }
-                    
-                    if(desactivar.equals("1")) desactivarOpciones(nombreUsuario, 0);
-                    else if(desactivar.equals("2")) desactivarOpciones(nombreUsuario, 1);
-                    else desactivarOpciones(nombreUsuario, 2);
+                    if (seleccion.equals("1")) {
+                    }
+
                 } else if (opcion.equals("6")) {
                 } else {
                     MainMenu.Error();
@@ -310,106 +354,6 @@ public class MainMenu {
                 }
                 MainMenu.lineas();
                 MainMenu.menuCliente();
-                MainMenu.lineas();
-                opcion = sc.nextLine();
-            }
-        } else if (Perfil.toUpperCase().equals("E")) {
-            MainMenu.lineas();
-            MainMenu.menuEmpleado();
-            MainMenu.lineas();
-            String opcion = sc.nextLine();
-            while (!opcion.equals("5")) {
-                if(opcion.equals("1")){
-                    arrayCuentas = ManejoArchivos.cuentasPendientes();
-                    solicitudesCuenta();
-                    for(int i = 0; i < arrayCuentas.size(); i++) {
-                        System.out.println(i + ":" + " " + arrayCuentas.get(i).split(",")[0]);
-                    }
-                    int cuentaAAprobar;
-                    System.out.println("Ingrese una opcion: ");
-                    cuentaAAprobar = sc.nextInt();
-                                       
-                    lineas();
-                    if(cuentaAAprobar > arrayCuentas.size()) {
-                        System.out.println("Ingreso un numero equivocado");
-                        lineas();
-                    }
-                    else {
-                        String value = arrayCuentas.get(cuentaAAprobar);
-                        String [] cuenta = value.split(",");
-                        System.out.println("Tipo de cuenta: " + cuenta[2]);
-                        System.out.println("Numero de cuenta: " + cuenta[3]);
-                        System.out.println("Usuario: " + cuenta[1]);
-                        System.out.println("Plan: " + tipoPlan(cuenta[6]));                        
-                        lineas();
-                                            
-                        String aprobar;
-                        System.out.println("¿Desea aprobar la creación de esta cuenta? (s/n): ");
-                        aprobar = sc.nextLine().toUpperCase();
-                        if(aprobar.equals("S")) {
-                            arrayCuentas.remove(cuentaAAprobar);
-                            cuenta[4] = "activa";
-                            StringBuilder sb = new StringBuilder();                            
-                            for(String a: cuenta) {
-                                sb.append(a);
-                                sb.append(",");
-                            }
-                            arrayCuentas.add(sb.toString());
-                            // Cambiar en archivo
-                            System.out.println("CUENTA APROBADA");
-                        } else System.out.println("CUENTA NO APROBADA");
-                    }                                        
-
-                } else if(opcion.equals("2")) {
-                    arraySolicitudesPendientes = ManejoArchivos.solicitudesPendientes();
-                    solicitudesPendientes();
-                    for(int i = 0; i < arraySolicitudesPendientes.size(); i++) {
-                        System.out.println(i + ":" + " " + arraySolicitudesPendientes.get(i).split(",")[0]);
-                    }
-                    int cuentaAAprobar;
-                    System.out.println("Ingrese una opcion: ");
-                    cuentaAAprobar = sc.nextInt();
-                                       
-                    lineas();
-                    if(cuentaAAprobar > arraySolicitudesPendientes.size()) {
-                        System.out.println("Ingreso un numero equivocado");
-                        lineas();
-                    }
-                    else {
-                        String value = arraySolicitudesPendientes.get(cuentaAAprobar);
-                        String [] cuenta = value.split(",");
-                        System.out.println("Tipo de tarjeta: " + cuenta[2]);
-                        System.out.println("Numero de cuenta: " + cuenta[3]);
-                        System.out.println("Usuario: " + cuenta[1]);
-                        System.out.println("Sueldo: " + cuenta[5]);                        
-                        lineas();
-                                            
-                        String aprobar;
-                        System.out.println("¿Desea aprobar la creación de esta cuenta? (s/n): ");
-                        aprobar = sc.nextLine().toUpperCase();
-                        if(aprobar.equals("S")) {
-                            arraySolicitudesPendientes.remove(cuentaAAprobar);
-                            cuenta[8] = "activa";
-                            StringBuilder sb = new StringBuilder();                            
-                            for(String a: cuenta) {
-                                sb.append(a);
-                                sb.append(",");
-                            }
-                            arraySolicitudesPendientes.add(sb.toString());
-                            // Cambiar en archivo
-                            System.out.println("CUENTA APROBADA");
-                        } else System.out.println("CUENTA NO APROBADA");
-                    }
-                } else if(opcion.equals("3")) {
-                    // Reportes
-                }  else if(opcion.equals("4")){
-                } 
-                else {
-                    Error();
-                    opcion = sc.nextLine();
-                }
-                MainMenu.lineas();
-                MainMenu.menuEmpleado();
                 MainMenu.lineas();
                 opcion = sc.nextLine();
             }
@@ -435,45 +379,12 @@ public class MainMenu {
                 + "5. Desactivar\n"
                 + "6. Salir");
     }
-    
     private static void menuEmpleado() {
-        System.out.println("1. Aprobar creación de cuentas\n" +
-                           "2. Aprobar solicitudes de tarjetas\n" +
-                           "3. Obtener reporte de clientes\n" +
-                           "4. Salir");
+        System.out.println(
+                "1. Aprovar creacion de cuentas\n"
+                + "2. Aprobar solicitudes de tarjeta\n"
+                + "3. Obtener reporte de clientes\n"
+        +"4. Salir");
     }
     
-    private static void desactivarOpciones(String nombreUsuario, int caso) {
-        switch(caso) {
-            case 0:
-                ManejoArchivos.desactivar(nombreUsuario, "solicitudes.txt", 0);
-                break;
-            case 1:
-                ManejoArchivos.desactivar(nombreUsuario, "solicitudes.txt", 1);
-                break;
-            case 2:
-                ManejoArchivos.desactivar(nombreUsuario, "cuentas.txt", 2);
-                break;
-        }
-    }
-    
-    private static void solicitudesCuenta() {
-        System.out.println("------------SOLICITUDES DE CREACIÓN DE CUENTAS-----------");
-    }
-    
-    private static void solicitudesPendientes() {
-        System.out.println("------------SOLICITUDES DE CREACIÓN DE TARJETAS-----------");
-    }
-    
-    private static String tipoPlan(String numero) {
-        switch(numero) {
-            case "1":
-                return "Plan Joven";                
-            case "2":
-                return "Plan Ahorro Casa";
-            case "3":
-                return "Plan Estándar";
-        }
-        return null;
-    }
 }

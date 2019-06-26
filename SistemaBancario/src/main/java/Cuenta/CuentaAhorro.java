@@ -6,6 +6,7 @@
 package Cuenta;
 
 import Archivo.ManejoArchivos;
+import java.util.Random;
 
 /**
  *
@@ -21,8 +22,8 @@ public class CuentaAhorro extends Cuenta {
         while (ManejoArchivos.ValidarNumeroCuenta(Integer.toString(numeroCuenta), "cuentas.txt")) {
             numeroCuenta = (int) Math.floor(Math.random() * 1000000000 + (100000000));
         }
-        int idsolicitud = ManejoArchivos.retornarPriximoId("cuentas.txt");
-        ManejoArchivos.EscribirCuenta(Integer.toString(idsolicitud), usuario, "ahorro", numeroCuenta, plan);
+        int idsolicitud=ManejoArchivos.retornarPriximoId("cuentas.txt");
+        ManejoArchivos.EscribirCuenta(idsolicitud, usuario, "ahorro", numeroCuenta, plan);
     }
 
 }
