@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -608,8 +608,87 @@ public class ManejoArchivos {
         }
 
     }
-    public static void Desactivar(String tipo, String usuario, String numero){
-        
-    }
+    public static void Desactivar(String tipo, String usuario, String numero) {
+        FileReader r;
+        BufferedReader br;
+        BufferedWriter bw;
+        try {
+            if (tipo.equals("cuenta")) {
+                BufferedWriter linea2 = new BufferedWriter(new FileWriter("desactivar.txt"));
+                linea2.write("");
+                linea2.close();
+                BufferedWriter linea1 = new BufferedWriter(new FileWriter("desactivar.txt"));
+                r = new FileReader("cuentas.txt");
+                br = new BufferedReader(r);
+                String bfread1;
+                linea1.write(br.readLine());
+                while ((bfread1 = br.readLine()) != null) {
+                    linea1.write('\n' + bfread1);
+                }
+                linea1.close();
+                br.close();
+                r.close();
 
+                BufferedWriter linea = new BufferedWriter(new FileWriter("cuentas.txt"));
+                linea.write("");
+                linea.close();
+                linea = new BufferedWriter(new FileWriter("cuentas.txt"));
+                r = new FileReader("desactivar.txt");
+                br = new BufferedReader(r);
+                String bfread;
+                linea.write(br.readLine());
+                while ((bfread = br.readLine()) != null) {
+                    if (usuario.equals(bfread.split(",")[1]) && numero.equals(bfread.split(",")[3])) {
+                        System.out.println("Estimado usuario, su cuenta con numero " + numero + " ha sido desactivada, para volver a \nactivarla comuniquese con comuníquese con su asesor bancario");
+                        linea.write("\n" + bfread.split(",")[0] + "," + bfread.split(",")[1] + "," + bfread.split(",")[2] + "," + bfread.split(",")[3] + ",desactivado," + bfread.split(",")[5] + "," + bfread.split(",")[6] + "," + bfread.split(",")[7]);
+                    } else {
+                        linea.write("\n" + bfread.split(",")[0] + "," + bfread.split(",")[1] + "," + bfread.split(",")[2] + "," + bfread.split(",")[3] + "," + bfread.split(",")[4] + "," + bfread.split(",")[5] + "," + bfread.split(",")[6] + "," + bfread.split(",")[7]);
+                    }
+                }
+                br.close();
+                r.close();
+                linea.close();
+
+            } else if (tipo.equals("solicitud")) {
+                BufferedWriter linea2 = new BufferedWriter(new FileWriter("desactivar.txt"));
+                linea2.write("");
+                linea2.close();
+                BufferedWriter linea1 = new BufferedWriter(new FileWriter("desactivar.txt"));
+                r = new FileReader("solicitudes.txt");
+                br = new BufferedReader(r);
+                String bfread1;
+                linea1.write(br.readLine());
+                while ((bfread1 = br.readLine()) != null) {
+                    linea1.write('\n' + bfread1);
+                }
+                linea1.close();
+                br.close();
+                r.close();
+
+                BufferedWriter linea = new BufferedWriter(new FileWriter("solicitudes.txt"));
+                linea.write("");
+                linea.close();
+                linea = new BufferedWriter(new FileWriter("solicitudes.txt"));
+                r = new FileReader("desactivar.txt");
+                br = new BufferedReader(r);
+                String bfread;
+                linea.write(br.readLine());
+                while ((bfread = br.readLine()) != null) {
+                    if (usuario.equals(bfread.split(",")[1]) && numero.equals(bfread.split(",")[0])) {
+                        System.out.println("Estimado usuario, su solicitud con numero " + numero + " ha sido desactivada, para volver a \nactivarla comuniquese con comuníquese con su asesor bancario");
+                        linea.write("\n" + bfread.split(",")[0] + "," + bfread.split(",")[1] + "," + bfread.split(",")[2] + "," + bfread.split(",")[3] + ","+bfread.split(",")[3]+"," + bfread.split(",")[5] + "," + bfread.split(",")[6] + "," + bfread.split(",")[7]+",desactivado");
+                    } else {
+                        linea.write("\n" + bfread.split(",")[0] + "," + bfread.split(",")[1] + "," + bfread.split(",")[2] + "," + bfread.split(",")[3] + "," + bfread.split(",")[4] + "," + bfread.split(",")[5] + "," + bfread.split(",")[6] + "," + bfread.split(",")[7]+","+bfread.split(",")[8]);
+                    }
+                }
+                br.close();
+                r.close();
+                linea.close();
+
+            }
+        } catch (IOException e) {
+
+        }
+
+    }
 }
