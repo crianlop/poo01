@@ -13,3 +13,4 @@ public interface Transaccionable {
     void consultarEstado(String usuario);
     void desactivar(String usuario,String numero);
 }
+
