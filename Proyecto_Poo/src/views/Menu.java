@@ -1,11 +1,17 @@
 package views;
 
+import classes.Jugador;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -54,7 +60,12 @@ public class Menu extends Application {
         Button bthistorial = new Button("Historial de Jugadores");
         bthistorial.setOnAction(e -> {
             if(this.history) {
-
+                try {
+                    tablaJugador(stage);
+                }catch(Exception exception){
+                    System.out.println("El error es: " + exception);
+                    System.exit(1);
+                }
             } else
                 ventanaEmergente(stage);
         });        
@@ -192,5 +203,75 @@ public class Menu extends Application {
         stage.centerOnScreen();
         stage.setResizable(false);
         stage.show();
+    }
+    
+    // Metodo que muestra la tabla de jugadores que han ganado
+    public void tablaJugador(Stage stage){
+        /*
+         nombre;
+    private String fecha;
+    private String puntos;
+    private String nivel;
+        */
+        TableView<Jugador> tabla = new TableView<>();
+        Label label = new Label("JUGADORES GANADORES");
+        label.setFont(new Font("Arial",20));
+        
+        tabla.setEditable(false);
+        
+        // Setear valores para presentar informacion en las columnas
+        TableColumn<Jugador, String> usuario = new TableColumn<>("Usuario");
+        TableColumn<Jugador, String> tiempo = new TableColumn<>("Fecha");
+        TableColumn<Jugador, String> monedas = new TableColumn<>("Puntos");
+        TableColumn<Jugador, String> fecha = new TableColumn<>("Nivel");        
+        
+        tabla.getColumns().addAll(usuario,tiempo,monedas,fecha);
+        
+        usuario.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tiempo.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        monedas.setCellValueFactory(new PropertyValueFactory<>("puntos"));
+        fecha.setCellValueFactory(new PropertyValueFactory<>("nivel"));        
+        
+        // Mostrar data en el tableView
+        try{
+            System.out.println("Mostrando los jugadores ganadores");
+            String cadena;
+            FileReader archivo = new FileReader(file);
+            BufferedReader buffer = new BufferedReader(archivo);
+            while((cadena = buffer.readLine()) != null){
+                String[] array = cadena.split(",");
+                Jugador jugador = new Jugador(array[0],array[1],
+                        array[2],array[3]);
+                tabla.getItems().addAll(jugador);
+            }
+            buffer.close();
+        } catch(Exception e) {
+            System.out.println("Error al tratar de cargar los ganadores" + e);
+        }
+        
+        // Resto de logica del tableView        
+        Button regresar = new Button("Regresar");        
+        regresar.setOnAction(e -> start(stage));
+        
+        AnchorPane anchor = new AnchorPane();
+        
+        AnchorPane.setTopAnchor(label, 20.0);
+        AnchorPane.setLeftAnchor(label, 120.0);
+        
+        AnchorPane.setTopAnchor(tabla, 60.0);
+        AnchorPane.setLeftAnchor(tabla, 55.0);
+        
+        AnchorPane.setBottomAnchor(regresar, 10.0);
+        AnchorPane.setLeftAnchor(regresar, 225.0);
+        
+        anchor.getChildren().addAll(label,tabla,regresar);
+        
+        anchor.setStyle("-fx-background-color: AQUAMARINE;");
+        Scene scene = new Scene(anchor,500,500);
+        stage.setTitle("Tabla de jugadores, by: msdrc2402");
+
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();        
     }
 }

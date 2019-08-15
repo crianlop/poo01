@@ -9,11 +9,11 @@ import java.util.Date;
 public class Jugador {
     
     private String nombre;
-    private Date fecha;
-    private int puntos;
-    private int nivel;
+    private String fecha;
+    private String puntos;
+    private String nivel;
     
-    public Jugador(String nombre, Date fecha, int puntos, int nivel) {
+    public Jugador(String nombre, String fecha, String puntos, String nivel) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.puntos = puntos;
@@ -28,27 +28,27 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public int getPuntos() {
+    public String getPuntos() {
         return puntos;
     }
 
-    public void setPuntos(int puntos) {
+    public void setPuntos(String puntos) {
         this.puntos = puntos;
     }
 
-    public int getNivel() {
+    public String getNivel() {
         return nivel;
     }
 
-    public void setNivel(int nivel) {
+    public void setNivel(String nivel) {
         this.nivel = nivel;
     }            
 }
