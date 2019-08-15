@@ -1,0 +1,4 @@
+
+Idsolicitud, usuario, tipo, cuenta, lugartrabajo, sueldo, tarjetas, deudas, estado
+1,ez,debito,641113733,no aplica,no aplica,no aplica,no aplica,activo
+2,ez,credito,no aplica,dicproind,200,0,10,activo
