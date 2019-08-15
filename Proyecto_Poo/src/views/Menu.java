@@ -46,7 +46,8 @@ public class Menu extends Application {
         Button btnuevojuego = new Button("Nuevo Juego");
         btnuevojuego.setOnAction(e -> {
             System.out.println("Bienvenido jugador..");
-            // Iniciar Juego aqui
+            NuevoJuego nuevo_juego = new NuevoJuego();
+            nuevo_juego.start(stage);
         });
 
         //Creacion del boton de Historial de Jugadores
