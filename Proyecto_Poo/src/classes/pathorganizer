@@ -1,0 +1,116 @@
+package manejoeventos;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.PathTransition;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+/**
+ *
+ * @author Administrator
+ */
+public class PaneOrganizer {
+
+    Random ran = new Random();
+    int nivel;
+    List<Jugador> list = Jugador.leer();
+    Scene scene1 = new Scene(new Pane(), 500, 500);
+    int valorDeta = 5;
+    int i = 0;
+    int i2 = 0;
+    Pane root = new Pane();
+    Scene scene;
+    TextField nick = new TextField();
+    int x = ran.nextInt(500 - 0 + 1) + 0;
+    int y = ran.nextInt(500 - 50 + 1) + 0;
+    ImageView araña = new ImageView(new Image("arana.png"));
+    Group root1 = new Group();
+    int puntaje = 0;
+    Label puntajet = new Label();
+    boolean tela = false;
+    Pane telar = new Pane();
+    int insectos = 0;
+    int i3;
+    int vidas = 3;
+    Label vidast;
+    Stage stage = new Stage();
+    Scene scene2;
+    int moscas2 = 20;
+    int hormigas2 = 20;
+    PathTransition pathTransitionL = new PathTransition();
+    Label posiscionsub = new Label();
+    boolean b = false;
+
+    public Pane getroot(Scene scene, Stage pstage) {
+        stage = pstage;
+        this.scene = scene;
+        vidast = new Label("Vidas: 3");
+        ImageView hoja = new ImageView(new Image("hoja.png"));
+        puntajet.setText("Puntaje: 000");
+        araña.setFitWidth(25);
+        araña.setFitHeight(25);
+
+        AnchorPane anchor = new AnchorPane();
+        ImageView ims = new ImageView(new Image("escena3.jpg"));
+
+        VBox root0 = new VBox();
+        Label nombre = new Label("Ingrese su nick");
+        nombre.setStyle("-fx-text-fill: white;");
+
+        Button btn1 = new Button("Nuevo Juego");
+        Button btn2 = new Button("Historial");
+        Button btn3 = new Button("Salir");
+        Button btn4 = new Button("Salir");
+        root0.getChildren().addAll(nombre, nick, btn1, btn2, btn3);
+        root0.setAlignment(Pos.CENTER);
+        root0.setSpacing(5);
+        root0.setLayoutX(190);
+        root0.setLayoutY(190);
+        anchor.getChildren().addAll(ims, root0);
+        root.getChildren().add(anchor);
+
+//        Reloj
+        Group root1 = new Group();
+
+        root1.getChildren().addAll(posiscionsub, puntajet, vidast);
+        puntajet.setLayoutX(100);
+        puntajet.setLayoutY(6);
+        vidast.setLayoutX(250);
+        vidast.setLayoutY(6);
+        posiscionsub.setLayoutX(10);
+        posiscionsub.setLayoutY(6);
+        btn4.setLayoutX(400);
+        btn4.setLayoutY(2);
+        root1.getChildren().add(btn4);
+        root1.getChildren().add(araña);
