@@ -253,3 +253,287 @@ public class PaneOrganizer {
             pathTransitionL.setPath(pl.createPath(pl));
             pathTransitionL.play();
         });
+        
+        araña.setX(250);
+        araña.setY(250);
+        AnchorPane anchor2 = new AnchorPane();
+        ImageView im3 = new ImageView(new Image("arena1.jpg"));
+
+        anchor2.getChildren().addAll(im3, root1);
+
+        AnchorPane anch = new AnchorPane();
+        VBox vb = new VBox();
+        Label label1 = new Label("Ingrese el numero de moscas para el proximo nivel:");
+        label1.setStyle("-fx-text-fill: white;");
+        Label label2 = new Label("Ingrese el numero de hormigas para el proximo nivel:");
+        label2.setStyle("-fx-text-fill: white;");
+        TextField moscas = new TextField();
+        TextField hormigas = new TextField();
+        Button btna = new Button("Aceptar");
+        vb.getChildren().addAll(label1, moscas, label2, hormigas, btna);
+        vb.setSpacing(10);
+        vb.setAlignment(Pos.CENTER);
+        vb.setLayoutX(90);
+        vb.setLayoutY(150);
+
+        anch.getChildren().addAll(new ImageView(new Image("escena3.jpg")), vb);
+        scene2 = new Scene(anch, 500, 500);
+
+        scene1 = new Scene(anchor2, 500, 500);
+        //mover la arana
+        scene1.setOnKeyPressed((KeyEvent e) -> {
+            if (b) {
+                if (araña.intersects(hoja.getBoundsInParent())) {
+                    valorDeta = 2;
+                }}
+                switch (e.getCode()) {
+                    case UP:
+
+                        araña.setY(araña.getY() - valorDeta);
+                        break;
+                    case RIGHT:
+                        araña.setX(araña.getX() + valorDeta);
+                        break;
+
+                    case LEFT:
+                        araña.setX(araña.getX() - valorDeta);
+                        break;
+
+                    case DOWN:
+                        araña.setY(araña.getY() + valorDeta);
+                        break;
+                }
+
+                if (araña.getLayoutBounds().getMinX() < 0) {
+                    araña.setX(0);
+                } else if (araña.getLayoutBounds().getMaxX() > scene1.getWidth()) {
+                    araña.setX(araña.getX() - valorDeta);
+                }
+
+                if (araña.getLayoutBounds().getMinY() < 35) {
+                    araña.setY(35);
+                } else if (araña.getLayoutBounds().getMaxY() > scene1.getHeight()) {
+                    araña.setY(araña.getY() - valorDeta);
+                }
+                valorDeta = 5;
+            }
+            );
+
+        //cierra el juego desde el menu
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    pstage.close();
+                }
+
+            });
+            //cierra el juego desde la ventana ejecutandose
+            btn4.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Stage stage0 = new Stage();
+                    VBox vbox = new VBox();
+                    Label lbq = new Label("Seguro que desea terminar el juego?");
+                    Button btnq = new Button("Si");
+                    Button btnq1 = new Button("No");
+                    HBox hbox = new HBox();
+                    hbox.getChildren().addAll(btnq, btnq1);
+                    vbox.getChildren().addAll(lbq, hbox);
+                    Scene sceneq = new Scene(vbox, 200, 200);
+                    stage0.setTitle("Salir");
+                    stage0.setScene(sceneq);
+                    stage0.show();
+                    btnq1.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage0.close();
+                        }
+                    });
+                    btnq.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage0.close();
+                            Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                            p.escribir();
+                            pstage.close();
+                            if (list != null) {
+                                list.add(p);
+                            }
+                            p.escribir();
+                            if (list == null) {
+                                list = Jugador.leer();
+                            }
+
+                        }
+                    });
+                }
+
+            });
+//funcion del boton 1
+            btn1.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (nick.getText().equals("")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Nick");
+                        String s = "Ingresar nick para poder guardar datos de la partida.";
+                        alert.setContentText(s);
+
+                        alert.show();
+                    } else {
+                        pathTransitionL.play();
+
+                        pathTransition.play();
+                        pathTransition2.play();
+                        pathTransition3.play();
+                        pathTransition4.play();
+                        pathTransition5.play();
+                        pathTransitionM1.play();
+                        pathTransitionM2.play();
+                        pathTransitionM3.play();
+                        pathTransitionM4.play();
+                        nivel = 1;
+                        i = 0;
+                        i2 = 0;
+                        pstage.setScene(scene1);
+                    }
+                }
+
+            });
+
+            //Creando los listeners, para cuando choquen moscas y hormigas
+            addinglistener(imgvm1, araña, pathTransitionM1);
+            addinglistener(imgvm2, araña, pathTransitionM2);
+            addinglistener(imgvm3, araña, pathTransitionM3);
+            addinglistener(imgvm4, araña, pathTransitionM4);
+
+            addinglistener(imgvh1, araña, pathTransition);
+            addinglistener(imgvh2, araña, pathTransition2);
+            addinglistener(imgvh3, araña, pathTransition3);
+            addinglistener(imgvh4, araña, pathTransition4);
+            addinglistener(imgvh5, araña, pathTransition5);
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            btna.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent arg0) {
+                    try {
+                        moscas2 = Integer.parseInt(moscas.getText());
+                        hormigas2 = Integer.parseInt(hormigas.getText());
+                    } catch (Exception e) {
+                        moscas2 = 0;
+                        hormigas2 = 0;
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    //reloj
+            pstage.setOnShown(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (true) {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (i2 == 60) {
+                                            i = 0;
+                                            i2 = 0;
+                                            posiscionsub.setText("00:00");
+                                        } else if (i2 < 10) {
+                                            if (i < 60) {
+                                                if (i < 10) {
+                                                    posiscionsub.setText("0" + i2 + ":0" + i);
+                                                    i++;
+                                                } else {
+                                                    posiscionsub.setText("0" + i2 + ":" + i);
+                                                    i++;
+                                                }
+
+                                            } else {
+                                                i = 0;
+                                                i2++;
+                                                posiscionsub.setText("0" + i2 + ":0" + i);
+
+                                            }
+
+                                        } else {
+                                            if (i < 60) {
+                                                if (i < 10) {
+                                                    posiscionsub.setText(i2 + ":0" + i);
+                                                    i++;
+                                                } else {
+                                                    posiscionsub.setText(i2 + ":" + i);
+                                                    i++;
+                                                }
+
+                                            } else {
+                                                i = 0;
+                                                i2++;
+                                                posiscionsub.setText(i2 + ":0" + i);
+
+                                            }
+                                        }
+                                    }
+
+                                });
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+//                                Logger.getLogger(PaneOrganizerConcurrencia.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                            }
+                        }
+
+                    });
+                    t.setDaemon(true);
+                    t.start();
+
+                }
+
+            });
+
+            return root;
+
+        }
