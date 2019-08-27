@@ -1,0 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package manejoeventos;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+/**
+ *
+ * @author Verónica
+ */
+public class EventHandlerProperties extends Application {
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage stage){
+        PaneOrganizer po=new PaneOrganizer();
+        Scene scene = null;
+        scene=new Scene(po.getroot(scene,stage),500,500);
+        stage.setTitle("juego");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+        
+        
+    }
+        
+}
