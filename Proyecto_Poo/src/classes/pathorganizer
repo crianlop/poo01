@@ -414,7 +414,71 @@ public class PaneOrganizer {
             addinglistener(imgvh4, araña, pathTransition4);
             addinglistener(imgvh5, araña, pathTransition5);
             
-            
+            //telarana
+
+//        ImageView is = new ImageView(new Image("telarana.png"));
+//        
+//        Thread t2 = new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            Platform.runLater(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    try {
+//                                        Thread.sleep(5000);
+//                                    } catch (InterruptedException ex) {
+////                                Logger.getLogger(PaneOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+//                                    }
+//                                    pathTransitionL.play();
+//                                    is.setX(700);
+//                                    is.setY(700);
+//                                }
+//                            });
+//                        }
+//                    });
+//        t2.setDaemon(true);
+//        imgvl.translateYProperty().addListener(new ChangeListener<Number>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observable,
+//                    Number oldValue, Number newValue) {
+//                if (imgvt.getBoundsInParent().intersects(araña.getBoundsInParent())) {
+//                    pathTransitionL.stop();
+//                    root1.getChildren().add(is);
+//                    is.setFitWidth(10);
+//                    is.setFitHeight(10);
+//                    is.setX(imgvl.getX());
+//                    is.setY(imgvl.getY());
+//
+//                    imgvt.setX(700);
+//                    imgvt.setY(700);
+//                    
+//                    t2.start();
+//
+//
+//                }
+//
+//            }
+//        });
+//        imgvl.translateXProperty().addListener(new ChangeListener<Number>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observable,
+//                    Number oldValue, Number newValue) {
+//                if (imgvt.getBoundsInParent().intersects(araña.getBoundsInParent())) {
+//                    pathTransitionL.stop();
+//                    
+//                    is.setX(imgvl.getX());
+//                    is.setY(imgvl.getY());
+//
+//                    imgvt.setX(700);
+//                    imgvt.setY(700);
+//                    
+//                    t2.start();
+//
+//                }
+//
+//            }
+//        });
             
             
             
