@@ -114,3 +114,142 @@ public class PaneOrganizer {
         btn4.setLayoutY(2);
         root1.getChildren().add(btn4);
         root1.getChildren().add(araña);
+//INSECTOS NIVEL 1
+        Image imgh = new Image("hormiga.png");
+        ImageView imgvh1 = new ImageView(imgh);
+        imgvh1.setFitHeight(25);
+        imgvh1.setFitWidth(25);
+        ImageView imgvh2 = new ImageView(imgh);
+        imgvh2.setFitHeight(25);
+        imgvh2.setFitWidth(25);
+        ImageView imgvh3 = new ImageView(imgh);
+        imgvh3.setFitHeight(25);
+        imgvh3.setFitWidth(25);
+        ImageView imgvh4 = new ImageView(imgh);
+        imgvh4.setFitHeight(25);
+        imgvh4.setFitWidth(25);
+        ImageView imgvh5 = new ImageView(imgh);
+        imgvh5.setFitHeight(25);
+        imgvh5.setFitWidth(25);
+
+//        Creacion del nodo para la lagartija
+        Image imgl = new Image("lagartija.png");
+        ImageView imgvl = new ImageView(imgl);
+        imgvl.setFitHeight(25);
+        imgvl.setFitWidth(25);
+
+//Creacion del nodo para las moscas
+        Image imgm = new Image("mosca.png");
+        ImageView imgvm1 = new ImageView(imgm);
+        imgvm1.setFitHeight(25);
+        imgvm1.setFitWidth(25);
+        ImageView imgvm2 = new ImageView(imgm);
+        imgvm2.setFitHeight(25);
+        imgvm2.setFitWidth(25);
+        ImageView imgvm3 = new ImageView(imgm);
+        imgvm3.setFitHeight(25);
+        imgvm3.setFitWidth(25);
+        ImageView imgvm4 = new ImageView(imgm);
+        imgvm4.setFitHeight(25);
+        imgvm4.setFitWidth(25);
+
+//Creacion del nodo para la telarana
+        Image imgt = new Image("telarana.png");
+        ImageView imgvt = new ImageView(imgt);
+        imgvt.setVisible(false);
+        imgvt.setFitHeight(50);
+        imgvt.setFitWidth(50);
+
+        //hormigas agregadas al pane 
+        root1.getChildren().addAll(imgvh1, imgvh2, imgvh3, imgvh4, imgvh5, imgvt);
+
+        //Moscas agregadas al pane
+        root1.getChildren().addAll(imgvm1, imgvm2, imgvm3, imgvm4);
+
+        root1.getChildren().addAll(imgvl);
+
+        //Animaciones hormigas    
+        PathHormiga ph1 = new PathHormiga(Pointx(), Pointy());
+        PathHormiga ph2 = new PathHormiga(Pointx(), Pointy());
+        PathHormiga ph3 = new PathHormiga(Pointx(), Pointy());
+        PathHormiga ph4 = new PathHormiga(Pointx(), Pointy());
+        PathHormiga ph5 = new PathHormiga(Pointx(), Pointy());
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(javafx.util.Duration.millis(3000));
+        pathTransition.setNode(imgvh1);
+        pathTransition.setOnFinished(e -> {
+            pathTransition.setPath(ph1.createPath(ph1));
+            pathTransition.play();
+        });
+        PathTransition pathTransition2 = new PathTransition();
+        pathTransition2.setDuration(javafx.util.Duration.millis(3000));
+        pathTransition2.setNode(imgvh2);
+        pathTransition2.setOnFinished(e -> {
+            pathTransition2.setPath(ph2.createPath(ph2));
+            pathTransition2.play();
+        });
+        PathTransition pathTransition3 = new PathTransition();
+        pathTransition3.setDuration(javafx.util.Duration.millis(3000));
+        pathTransition3.setNode(imgvh3);
+        pathTransition3.setOnFinished(e -> {
+            pathTransition3.setPath(ph3.createPath(ph3));
+            pathTransition3.play();
+        });
+        PathTransition pathTransition4 = new PathTransition();
+        pathTransition4.setDuration(javafx.util.Duration.millis(3000));
+        pathTransition4.setNode(imgvh4);
+        pathTransition4.setOnFinished(e -> {
+            pathTransition4.setPath(ph4.createPath(ph4));
+            pathTransition4.play();
+        });
+        PathTransition pathTransition5 = new PathTransition();
+        pathTransition5.setDuration(javafx.util.Duration.millis(3000));
+        pathTransition5.setNode(imgvh5);
+        pathTransition5.setOnFinished(e -> {
+            pathTransition5.setPath(ph5.createPath(ph5));
+            pathTransition5.play();
+        });
+
+        //Animacion Moscas
+        PathMosca pm1 = new PathMosca(Pointx(), Pointy());
+        PathMosca pm2 = new PathMosca(Pointx(), Pointy());
+        PathMosca pm3 = new PathMosca(Pointx(), Pointy());
+        PathMosca pm4 = new PathMosca(Pointx(), Pointy());
+
+        PathTransition pathTransitionM1 = new PathTransition();
+        pathTransitionM1.setDuration(javafx.util.Duration.millis(2000));
+        pathTransitionM1.setNode(imgvm1);
+        pathTransitionM1.setOnFinished(e -> {
+            pathTransitionM1.setPath(pm1.createPath(pm1));
+            pathTransitionM1.play();
+        });
+        PathTransition pathTransitionM2 = new PathTransition();
+        pathTransitionM2.setDuration(javafx.util.Duration.millis(2000));
+        pathTransitionM2.setNode(imgvm2);
+        pathTransitionM2.setOnFinished(e -> {
+            pathTransitionM2.setPath(pm2.createPath(pm2));
+            pathTransitionM2.play();
+        });
+        PathTransition pathTransitionM3 = new PathTransition();
+        pathTransitionM3.setDuration(javafx.util.Duration.millis(2000));
+        pathTransitionM3.setNode(imgvm3);
+        pathTransitionM3.setOnFinished(e -> {
+            pathTransitionM3.setPath(pm3.createPath(pm3));
+            pathTransitionM3.play();
+        });
+        PathTransition pathTransitionM4 = new PathTransition();
+        pathTransitionM4.setDuration(javafx.util.Duration.millis(2000));
+        pathTransitionM4.setNode(imgvm4);
+        pathTransitionM4.setOnFinished(e -> {
+            pathTransitionM4.setPath(pm4.createPath(pm4));
+            pathTransitionM4.play();
+        });
+//      Animacion lagartija
+        PathMosca pl = new PathMosca(pointLagx(), pointLagy());
+        pathTransitionL.setDuration(javafx.util.Duration.millis(3000));
+        pathTransitionL.setNode(imgvl);
+        pathTransitionL.setOnFinished(e -> {
+            pathTransitionL.setPath(pl.createPath(pl));
+            pathTransitionL.play();
+        });
