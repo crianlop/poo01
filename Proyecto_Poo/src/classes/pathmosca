@@ -1,0 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package manejoeventos;
+
+import java.util.Random;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+
+/**
+ *
+ * @author Manager
+ */
+public class PathMosca {
+    private int x;
+    private int y;
+    Random ran=new Random();
+
+    public PathMosca(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public Path createPath(PathMosca m) {
+        Path path = new Path();
+        int pos = ran.nextInt(500 - 0 + 1) + 0;
+        int pos2 = ran.nextInt(500 - 50 + 1) + 50;
+        path.getElements().add(new MoveTo(x,y));
+        path.getElements().add(new CubicCurveTo(ran.nextInt(500 - 0 + 1) + 0, ran.nextInt(500 - 50 + 1) + 50, ran.nextInt(500 - 0 + 1) + 0, ran.nextInt(500 - 50 + 1) + 50, pos, pos2));
+        this.x = pos;
+        this.y = pos2;
+
+        return path;
+
+    }
+}
