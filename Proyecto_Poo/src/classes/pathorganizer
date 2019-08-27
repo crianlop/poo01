@@ -578,7 +578,96 @@ public class PaneOrganizer {
                 }
             });
 
-                    
+            btna.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent arg0) {
+                    try {
+                        moscas2 = Integer.parseInt(moscas.getText());
+                        hormigas2 = Integer.parseInt(hormigas.getText());
+                    } catch (Exception e) {
+                        moscas2 = 0;
+                        hormigas2 = 0;
+                    }
+                    if (moscas2 == 0 && hormigas2 == 0) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error de datos ingresados");
+                        String s = "Ingresar datos por favor";
+                        alert.setContentText(s);
+
+                        alert.show();
+                    } else {
+                        pstage.setScene(scene1);
+                        b=true;
+
+                        hoja.setFitWidth(25);
+                        hoja.setFitHeight(25);
+                        hoja.setX(Pointx());
+                        hoja.setY(Pointy());
+                        root1.getChildren().clear();
+                        root1.getChildren().addAll(posiscionsub, puntajet, vidast, araña, btn4, imgvl, hoja);
+                        pathTransitionL.play();
+                        for (int i = 0; i < moscas2; i++) {
+                            ImageView im = new ImageView(imgm);
+                            im.setFitHeight(25);
+                            im.setFitWidth(25);
+                            PathMosca pm = new PathMosca(Pointx(), Pointy());
+                            PathTransition pathTransitionM1 = new PathTransition();
+                            pathTransitionM1.setDuration(javafx.util.Duration.millis(2000));
+                            pathTransitionM1.setNode(im);
+                            pathTransitionM1.setOnFinished(e -> {
+                                pathTransitionM1.setPath(pm.createPath(pm));
+                                pathTransitionM1.play();
+                            });
+                            pathTransitionM1.play();
+                            addinglistener(im, araña, pathTransitionM1);
+                            root1.getChildren().add(im);
+                        }
+                        for (int i = 0; i < hormigas2; i++) {
+                            ImageView im1 = new ImageView(imgh);
+                            im1.setFitHeight(25);
+                            im1.setFitWidth(25);
+                            PathHormiga pmh = new PathHormiga(Pointx(), Pointy());
+                            PathTransition pathTransitionM1 = new PathTransition();
+                            pathTransitionM1.setDuration(javafx.util.Duration.millis(2000));
+                            pathTransitionM1.setNode(im1);
+                            pathTransitionM1.setOnFinished(e -> {
+                                pathTransitionM1.setPath(pmh.createPath(pmh));
+                                pathTransitionM1.play();
+                            });
+                            pathTransitionM1.play();
+                            addinglistener(im1, araña, pathTransitionM1);
+                            root1.getChildren().add(im1);
+                        }
+                    }
+                }
+            });
+            //tarea para que aparezca la telarana a cierto tiempo
+
+            int timetl = ran.nextInt(10000 - 5000 + 1) + 5000;
+            Timer timer;
+            TimerTask tarea;
+
+            tarea = new TimerTask() {
+                @Override
+                public void run() {
+                    imgvt.setLayoutX(Pointx());
+                    imgvt.setLayoutY(Pointy());
+                    imgvt.setVisible(true);
+                }
+            };
+            timer = new Timer();
+            timer.schedule(tarea, timetl);
+            //tarea para que solo permanezca por 5 segundos
+            TimerTask tarea2;
+            tarea2 = new TimerTask() {
+                @Override
+                public void run() {
+                    imgvt.setDisable(true);
+                    imgvt.setVisible(false);
+                }
+            };
+            timer.schedule(tarea2, timetl + 5000);        
                     
                     
                     
@@ -817,4 +906,35 @@ public class PaneOrganizer {
             }
         });
 
+    }
+     private int Pointx() {
+        int pointx = ran.nextInt(500 - 50 + 1) + 0; // min=0 , max=600
+        while (pointx == 250) {
+            pointx = ran.nextInt(500 - 50 + 1) + 0;
+        }
+        return pointx;
+    }
+
+    private int Pointy() {
+        int pointy = ran.nextInt(500 - 50 + 1) + 50; // min=0 , max=600
+        while (pointy == 250) {
+            pointy = ran.nextInt(500 - 50 + 1) + 50;
+        }
+        return pointy;
+    }
+
+    private int pointLagx() {
+        int pointx = ran.nextInt(1 - 0 + 1) + 0;
+        if (pointx == 0) {
+            return 0;
+        }
+        return 500;
+    }
+
+    private int pointLagy() {
+        int pointx = ran.nextInt(1 - 0 + 1) + 0;
+        if (pointx == 0) {
+            return 50;
+        }
+        return 500;
     }
