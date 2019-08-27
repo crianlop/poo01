@@ -493,23 +493,91 @@ public class PaneOrganizer {
             
             
             
-            
-            
-            
-            
-            
-            btna.setOnAction(new EventHandler<ActionEvent>() {
+            imgvl.translateYProperty().addListener(new ChangeListener<Number>() {
                 @Override
-                public void handle(ActionEvent arg0) {
-                    try {
-                        moscas2 = Integer.parseInt(moscas.getText());
-                        hormigas2 = Integer.parseInt(hormigas.getText());
-                    } catch (Exception e) {
-                        moscas2 = 0;
-                        hormigas2 = 0;
+                public void changed(ObservableValue<? extends Number> observable,
+                        Number oldValue, Number newValue) {
+                    if (imgvl.getBoundsInParent().intersects(araña.getBoundsInParent())) {
+                        if (vidas == 1) {
+                            vidas--;
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Game Over");
+                            alert.setHeaderText("Usted ha perdido :c");
+                            String s = "Suerte para la proxima";
+                            alert.setContentText(s);
+                            alert.show();
+                            pstage.close();
+                            try {
+                                Thread.currentThread().sleep(3000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(PaneOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            alert.close();
+                            Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                            p.escribir();
+
+                        } else {
+                            vidas--;
+                            araña.setX(250);
+                            araña.setY(250);
+                            vidast.setText("Vidas: " + vidas);
+
+                        }
                     }
-                    
-                    
+                }
+            });
+            imgvl.translateXProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable,
+                        Number oldValue, Number newValue) {
+                    if (imgvl.getBoundsInParent().intersects(araña.getBoundsInParent())) {
+                        if (vidas == 1) {
+                            vidas--;
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Game Over");
+                            alert.setHeaderText("Usted ha perdido :c");
+                            String s = "Suerte para la proxima";
+                            alert.setContentText(s);
+                            alert.show();
+                            pstage.close();
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(PaneOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            alert.close();
+                            Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                            p.escribir();
+
+                        } else {
+                            araña.setX(250);
+                            araña.setY(250);
+                            vidas--;
+                            vidast.setText("Vidas: " + vidas);
+                        }
+                    }
+                }
+            });
+            btn2.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    if (list == null) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("No hay jugadores aun");
+                        String s = "Primero debe haber jugadores para empezar.";
+                        alert.setContentText(s);
+
+                        alert.show();
+                    } else {
+                        tablaJugador();
+                    }
+                }
+            });
+
                     
                     
                     
@@ -601,3 +669,152 @@ public class PaneOrganizer {
             return root;
 
         }
+          public void addinglistener(ImageView n, ImageView a, PathTransition t) {
+        n.translateXProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (a.getBoundsInParent().intersects(n.getBoundsInParent())) {
+                    t.stop();
+                    n.setLayoutX(0);
+                    n.setLayoutX(600);
+                    puntaje = puntaje + 100;
+                    puntajet.setText("Puntaje: " + puntaje);
+                    t.stop();
+                    insectos++;
+                }
+                if (insectos == 9) {
+                    insectos++;
+                    pathTransitionL.stop();
+                    Stage stage0 = new Stage();
+                    VBox vbox = new VBox();
+                    Label lbq = new Label("Desea Continuar al siguiente nivel?");
+                    Button btnq = new Button("Si");
+                    Button btnq1 = new Button("No");
+                    HBox hbox = new HBox();
+                    vbox.setAlignment(Pos.CENTER);
+                    hbox.getChildren().addAll(btnq, btnq1);
+                    vbox.getChildren().addAll(lbq, hbox);
+                    hbox.setSpacing(10);;
+                    Scene sceneq = new Scene(vbox, 200, 200);
+                    stage0.setTitle("Nivel Completado");
+                    stage0.setScene(sceneq);
+                    stage0.show();
+                    btnq.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage.setScene(scene2);
+                            stage0.close();
+                            nivel = 2;
+                        }
+                    });
+                    btnq1.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage0.close();
+                            stage.close();
+                            Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                            list.add(p);
+                            p.escribir();
+
+                        }
+                    });
+
+                }
+                if (insectos == moscas2 + hormigas2 + 10) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Woooooooo");
+                    alert.setHeaderText("Felicidades");
+                    String s = "Usted ha ganado";
+                    alert.setContentText(s);
+
+                    alert.show();
+                    stage.close();
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PaneOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    alert.close();
+                    Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                    p.escribir();
+                    insectos++;
+
+                }
+            }
+        });
+        n.translateYProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (a.getBoundsInParent().intersects(n.getBoundsInParent())) {
+                    t.stop();
+                    n.setLayoutX(0);
+                    n.setLayoutX(600);
+                    puntaje = puntaje + 100;
+                    puntajet.setText("Puntaje: " + puntaje);
+                    t.stop();
+                    insectos++;
+                }
+                if (insectos == 9) {
+                    insectos++;
+                    pathTransitionL.stop();
+                    Stage stage0 = new Stage();
+                    VBox vbox = new VBox();
+                    Label lbq = new Label("Desea Continuar al siguiente nivel?");
+                    Button btnq = new Button("Si");
+                    Button btnq1 = new Button("No");
+                    HBox hbox = new HBox();
+                    vbox.setAlignment(Pos.CENTER);
+                    hbox.getChildren().addAll(btnq, btnq1);
+                    vbox.getChildren().addAll(lbq, hbox);
+                    hbox.setSpacing(10);;
+                    Scene sceneq = new Scene(vbox, 200, 200);
+                    stage0.setTitle("Nivel Completado");
+                    stage0.setScene(sceneq);
+                    stage0.show();
+                    btnq.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage.setScene(scene2);
+                            stage0.close();
+                            nivel = 2;
+                        }
+                    });
+                    btnq1.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            stage0.close();
+                            stage.close();
+                            Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                            list.add(p);
+                            p.escribir();
+
+                        }
+                    });
+
+                }
+                if (insectos == moscas2 + hormigas2 + 10) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Woooooooo");
+                    alert.setHeaderText("Felicidades");
+                    String s = "Usted ha ganado";
+                    alert.setContentText(s);
+
+                    stage.close();
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PaneOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    alert.close();
+                    Jugador p = new Jugador(nick.getText(), posiscionsub.getText(), nivel, puntaje);
+                    p.escribir();
+                    insectos++;
+
+                }
+
+            }
+        });
+
+    }
