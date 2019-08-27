@@ -1,0 +1,77 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package manejoeventos;
+
+import java.util.Random;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+
+/**
+ *
+ * @author Manager
+ */
+public class PathHormiga {
+    private int x;
+    private int y;
+    Random ran= new Random();
+    
+    public PathHormiga(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+    
+    public Path createPath(PathHormiga h) {
+        
+        int derecha = ran.nextInt(500-x - 0 + 1) + 0;// min=0 , max=600
+        int abajo = ran.nextInt(500- (y - 50) + 1) + 0;// min=0 , max=600
+        int izquierda = ran.nextInt(x - 0 + 1) + 0;// min=0 , max=600
+        int arriba = ran.nextInt(y - 50 + 1) + 0;// min=0 , max=600
+//        int derecha = 50;// min=0 , max=600
+//        int abajo =50;// min=0 , max=600
+//        int izquierda = 50;// min=0 , max=600
+//        int arriba = 50;// min=0 , max=600
+
+        
+        Path path = new Path();
+        int n=0;
+        while(n<1){
+        int move=ran.nextInt(3 - 0 + 1) + 0;
+        if(derecha+x<500 && move==0){
+            path.getElements().add(new MoveTo(x, y));
+            path.getElements().add(new LineTo(derecha+x, y));
+            this.x=derecha+x;
+            n=1;
+            return path;
+        }
+        if(abajo+y<500&& move==1){
+            path.getElements().add(new MoveTo(x, y));
+            path.getElements().add(new LineTo(x, abajo+y));
+            this.y=abajo+y;
+            n=1;
+            return path;
+            
+        }
+        if(izquierda+x>0&& move==2){
+            path.getElements().add(new MoveTo(x, y));
+            path.getElements().add(new LineTo(x-izquierda, y));
+            this.x=x-izquierda;
+            n=1;
+            return path;
+        }
+        if(arriba+y>20&& move==3){
+            path.getElements().add(new MoveTo(x, y));
+            path.getElements().add(new LineTo(x, y-arriba));
+            this.y=y-arriba;
+            n=1;
+            return path;
+        }
+        } 
+        return path;
+
+    }
+    
+}
