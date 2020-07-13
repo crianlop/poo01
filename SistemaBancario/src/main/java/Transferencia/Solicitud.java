@@ -1,4 +1,4 @@
-package solicitud;
+package Transferencia;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

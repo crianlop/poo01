@@ -11,7 +11,7 @@ package Chequera;
  */
 public class Chequera {
     int[] cheques=new int[50];
-    public Chequera(){
+    public Chequera(int primerCheque){
         
     }
     
